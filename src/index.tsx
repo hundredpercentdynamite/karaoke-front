@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { DeviceThemeProvider } from '@sberdevices/plasma-ui/components/Device'; // Типографика, имеющая размеры, зависимые от типа устройства
+import App from './App/App';
+import GlobalStyle from './App/GlobalStyle';
 import './index.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DeviceThemeProvider>
+      <GlobalStyle />
+      <App />
+    </DeviceThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
