@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sberdevices/assistant-client": "^1.0.5",
     "@sberdevices/plasma-icons": "^1.4.0",
     "@sberdevices/plasma-tokens": "^1.1.0",
     "@sberdevices/plasma-ui": "^1.6.2",
@@ -15,6 +16,8 @@
     "@types/react-dom": "^17.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "sass": "^1.32.8",
     "styled-components": "^5.2.3",
@@ -46,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router": "^5.1.13",
+    "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9"
   }
 }

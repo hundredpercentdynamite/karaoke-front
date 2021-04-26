@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { DeviceThemeProvider } from '@sberdevices/plasma-ui/components/Device'; // Типографика, имеющая размеры, зависимые от типа устройства
+import { BrowserRouter } from 'react-router-dom';
 import App from './App/App';
 import GlobalStyle from './App/GlobalStyle';
 import './index.scss';
@@ -10,7 +11,9 @@ ReactDOM.render(
   <React.StrictMode>
     <DeviceThemeProvider>
       <GlobalStyle />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </DeviceThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
