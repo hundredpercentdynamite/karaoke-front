@@ -26,7 +26,7 @@ const initializeAssistant = (getState: any) => {
   return createAssistant({ getState });
 };
 
-export const TodoList: FC = memo(() => {
+export const SongList: FC = memo(() => {
   const [appState, dispatch] = useReducer(reducer, { notes: [] });
 
   const [note, setNote] = useState("");
