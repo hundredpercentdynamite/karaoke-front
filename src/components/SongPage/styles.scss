@@ -1,14 +1,85 @@
-.rabbit-lyrics__inline {
-  //line-height: 1.5em;
-  //min-height: 1.5em;
-  //padding: 0 1em;
-  //
-  //display: none;
-  //&.rabbit-lyrics__inline--active {
-  //  display: block;
-  //}
+.song_page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 50px;
+  box-sizing: border-box;
+
+  .controls {
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    .volume {
+      position: absolute;
+      top: 0;
+      left: 0;
+      .volume_control {
+        flex-direction: column-reverse;
+        height: 100px;
+      }
+      .volume_icon {
+        position: absolute;
+        left: -20px;
+        top: calc(50% - 10px);
+      }
+    }
+    .image_container {
+      position: relative;
+
+      &:hover {
+        .song_image {
+          filter: blur(3px);
+        }
+
+        .play_button {
+          border-left-color: rgba(255, 255, 255, 0.7);
+          filter: drop-shadow(0 0 3px #ccc);
+        }
+      }
+
+      .song_image {
+        transition: filter 0.2s ease;
+      }
+
+      .play_button, .pause_button {
+        position: absolute;
+        top: calc(50% - 25px);
+        left: calc(50% - 25px);
+        transition: border-left-color 0.5s ease;
+      }
+
+      .play_button {
+        width: 0;
+        height: 0;
+        border-left: 50px solid rgba(240, 240, 240, 0.7);
+        border-top: 25px solid transparent;
+        border-bottom: 25px solid transparent;
+      }
+
+      .pause_button {
+        background: #fff;
+      }
+    }
+  }
+
+
+  .lyrics_card {
+    width: 100%;
+    margin-bottom: 100px;
+
+    .rabbit-lyrics {
+      background: transparent;
+      border: none;
+      height: 2rem;
+      font-size: 1.8rem;
+      line-height: 2rem;
+    }
+  }
+
 }
 
-.rabbit-lyrics {
-  background: #000;
-}

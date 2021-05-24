@@ -1,11 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import RabbitLyrics from 'rabbit-lyrics';
-import './styles.scss';
 import { useParams } from 'react-router';
+import {
+  Card,
+  CardBody,
+  CardContent,
+  Spinner, Stepper,
+} from '@sberdevices/plasma-ui';
 import { fetchSongData } from '../../network/apiCalls';
 import { SongDTO } from '../../models/songs';
+import { createReducer } from '../../utils/reducer';
+import './styles.scss';
 
 export type SongPageProps = Readonly<{}>;
+export type SongPageState = {
+  isLoading: boolean;
+  isPlaying: boolean;
+  song: SongDTO;
+  volume: number;
+};
 
 const defaultSongFields = {
   audio_link: '',
@@ -14,19 +27,62 @@ const defaultSongFields = {
   title: '',
   _id: '',
 };
+const defaultSongPageState = {
+  song: defaultSongFields,
+  isLoading: true,
+  isPlaying: false,
+  volume: 0.5,
+}
+
+const { actions, reducer } = createReducer<SongPageState>({
+  setSong: (state, payload) => {
+    return {
+      ...state,
+      song: payload,
+    }
+  },
+  setPlayingFlag: (state, payload) => {
+    return {
+      ...state,
+      isPlaying: payload,
+    }
+  },
+  setLoadingFlag: (state, payload) => {
+   return {
+     ...state,
+     isLoading: payload,
+   }
+  },
+  setVolume: (state, payload) => {
+    return {
+      ...state,
+      volume: payload,
+    }
+  },
+});
 
 const SongPage = (props: SongPageProps) => {
   const { songId } = useParams<{ songId: string }>();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lyricsRef = useRef<HTMLDivElement | null>(null);
   const rabbitInst = useRef<any>();
-  const [song, setSong] = useState<SongDTO>(defaultSongFields);
+
+  const { setSong, setPlayingFlag, setLoadingFlag, setVolume } = actions;
+  const [state, dispatch] = useReducer(reducer, defaultSongPageState);
+  const { song, isPlaying, isLoading, volume } = state;
+
   useEffect(() => {
+    dispatch(setLoadingFlag(true));
     const fetchSong = async (): Promise<{ data: SongDTO }> => {
       return fetchSongData(songId);
     };
     fetchSong()
-      .then(({ data }) => setSong(data));
+      .then(({ data }) => {
+        dispatch(setSong(data));
+      })
+      .finally(() => {
+        dispatch(setLoadingFlag(false));
+      });
   }, []);
 
   const {
@@ -45,17 +101,70 @@ const SongPage = (props: SongPageProps) => {
     }
   }, [song]);
 
+  const onPlay = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      dispatch(setPlayingFlag(true));
+    }
+  }
+
+  const onPause = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      dispatch(setPlayingFlag(false));
+    }
+  }
+
+  const onVolumeChange = (value: number) => {
+    if (audioRef.current) {
+      const level = value / 10;
+      audioRef.current.volume = level;
+      dispatch(setVolume(level));
+    }
+  }
+  const imageClickHandler = !isPlaying ? onPlay : onPause;
+  const controlButtonClassName = !isPlaying ? 'play_button' : 'pause_button';
   return (
-    <>
-      {audio_link &&
-      <audio id="audio-1" controls ref={audioRef}>
-        <source src={audio_link} type="audio/mpeg" />
-      </audio>
+    <div className="song_page">
+      { isLoading ? <Spinner /> :
+        <div className="controls">
+          <div className="volume">
+            <Stepper
+              showRemove
+              value={volume * 10}
+              step={1}
+              min={0}
+              max={10}
+              disabled={false}
+              onChange={onVolumeChange}
+              onRemove={() => {}}
+              className="volume_control"
+            />
+            <img className="volume_icon" src="/volume.svg" width={20} height={20} />
+          </div>
+          <div className="image_container" onClick={imageClickHandler}>
+            <img height={400} width={400} src={image_link} className="song_image" />
+            <div className={controlButtonClassName} />
+          </div>
+          <div></div>
+        </div>
+
       }
-      <div id="lyrics-1" className="rabbit-lyrics" data-media="#audio-1" ref={lyricsRef} data-view-mode="mini">
-        {lyrics}
-      </div>
-    </>
+      <Card className="lyrics_card">
+        <CardBody>
+          <CardContent>
+            {audio_link &&
+            <audio id="audio-1" ref={audioRef}>
+              <source src={audio_link} type="audio/mpeg" />
+            </audio>
+            }
+            <div id="lyrics-1" className="rabbit-lyrics" data-media="#audio-1" ref={lyricsRef} data-view-mode="mini">
+              {lyrics}
+            </div>
+          </CardContent>
+        </CardBody>
+      </Card>
+    </div>
   );
 };
 

@@ -6,13 +6,13 @@ export type ReducersMap<T> = {
   [key: string]: MappedReducer<T>;
 }
 
-export type ActionCreator = (type: string) => (payload: ObjectAnyKey) => Action;
+export type ActionCreator = (type: string) => (payload: any) => Action;
 export type Action = {
   type: string;
   payload: any;
 }
 export type ActionsMap = {
-  [key: string]: (payload: ObjectAnyKey) => Action;
+  [key: string]: (payload: any) => Action;
 }
 
 
