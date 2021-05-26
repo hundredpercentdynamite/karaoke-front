@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import RabbitLyrics from 'rabbit-lyrics';
 import { useParams } from 'react-router';
 import {
