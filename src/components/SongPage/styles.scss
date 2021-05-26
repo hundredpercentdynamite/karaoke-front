@@ -3,14 +3,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
-  padding: 50px;
   box-sizing: border-box;
+  height: calc(100% - 240px);
 
   .controls {
     width: 100%;
     box-sizing: border-box;
     position: relative;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -70,7 +70,6 @@
 
   .lyrics_card {
     width: 100%;
-    margin-bottom: 100px;
 
     .rabbit-lyrics {
       background: transparent;
@@ -81,5 +80,12 @@
     }
   }
 
+
+  .spinner_wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 

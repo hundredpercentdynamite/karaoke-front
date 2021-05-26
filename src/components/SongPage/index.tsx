@@ -11,8 +11,12 @@ import { fetchSongData } from '../../network/apiCalls';
 import { SongDTO } from '../../models/songs';
 import { createReducer } from '../../utils/reducer';
 import './styles.scss';
+import { AppState } from '../../App/store';
 
-export type SongPageProps = Readonly<{}>;
+export type SongPageProps = Readonly<{
+  dispatch: Function;
+  appState: AppState;
+}>;
 export type SongPageState = {
   isLoading: boolean;
   isPlaying: boolean;
@@ -126,7 +130,7 @@ const SongPage = (props: SongPageProps) => {
   const controlButtonClassName = !isPlaying ? 'play_button' : 'pause_button';
   return (
     <div className="song_page">
-      { isLoading ? <Spinner /> :
+      { isLoading ? <div className="spinner_wrapper"><Spinner /></div> :
         <div className="controls">
           <div className="volume">
             <Stepper

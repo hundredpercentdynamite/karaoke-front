@@ -7,10 +7,11 @@ export type SongCardProps = Readonly<{
   title: string;
   focused: boolean;
   id: string;
+  index: number;
 }>;
 
 const SongCard = (props: SongCardProps) => {
-  const { imageSrc, title, focused, id } = props;
+  const { imageSrc, title, focused, id, index } = props;
   const history = useHistory();
   const clickHandler = () => {
     history.push(`/song/${id}`)
@@ -21,6 +22,7 @@ const SongCard = (props: SongCardProps) => {
         <CardMedia src={imageSrc} ratio="1/1" />
         <CardContent>
           <CardHeadline2>
+            {index}.&nbsp;
             {title}
           </CardHeadline2>
         </CardContent>
