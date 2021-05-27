@@ -126,8 +126,14 @@ const SongPage = (props: SongPageProps) => {
       dispatch(setVolume(level));
     }
   }
+  const onSongEnded = () => {
+    dispatch(setPlayingFlag(false));
+  }
+
   const imageClickHandler = !isPlaying ? onPlay : onPause;
   const controlButtonClassName = !isPlaying ? 'play_button' : 'pause_button';
+  const imgBackground = { background: `url(${image_link}) center / cover no-repeat`}
+
   return (
     <div className="song_page">
       { isLoading ? <div className="spinner_wrapper"><Spinner /></div> :
@@ -147,10 +153,9 @@ const SongPage = (props: SongPageProps) => {
             <img className="volume_icon" src="/volume.svg" width={20} height={20} />
           </div>
           <div className="image_container" onClick={imageClickHandler}>
-            <img height={400} width={400} src={image_link} className="song_image" />
+            <div className="song_image" style={imgBackground} />
             <div className={controlButtonClassName} />
           </div>
-          <div></div>
         </div>
 
       }
@@ -158,7 +163,7 @@ const SongPage = (props: SongPageProps) => {
         <CardBody>
           <CardContent>
             {audio_link &&
-            <audio id="audio-1" ref={audioRef}>
+            <audio id="audio-1" ref={audioRef} onEnded={onSongEnded}>
               <source src={audio_link} type="audio/mpeg" />
             </audio>
             }

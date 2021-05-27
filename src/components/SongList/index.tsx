@@ -3,7 +3,15 @@ import React, {
   useEffect,
 } from 'react';
 import { fetchSongList } from '../../network/apiCalls';
-import { Carousel, CarouselGridWrapper, Row, Container, useRemoteHandlers, CarouselItem } from '@sberdevices/plasma-ui';
+import {
+  Carousel,
+  CarouselGridWrapper,
+  Row,
+  Container,
+  useRemoteHandlers,
+  CarouselItem,
+  CarouselCol,
+} from '@sberdevices/plasma-ui';
 import { isSberBox } from '@sberdevices/plasma-ui/utils';
 import SongCard from './SongCard';
 import { AppState, appActions } from '../../App/store';
@@ -39,7 +47,8 @@ export const SongList = memo((props: SongListProps) => {
     delay,
     longDelay,
     min: 0,
-    max: 6,
+    // max: songs.length - 1,
+    max: 1,
   });
 
   return (
@@ -59,20 +68,20 @@ export const SongList = memo((props: SongListProps) => {
           paddingStart="50%"
           paddingEnd="50%"
           style={{ paddingTop: '5rem', paddingBottom: '1rem' }}
-          scrollAlign="center"
+          scrollAlign="start"
         >
-          {songs.map((song, i) => (
-              <CarouselItem scrollSnapAlign="start">
-                <SongCard
-                  index={i + 1}
-                  title={song.title}
-                  key={`item:${i}`}
-                  focused={i === index}
-                  imageSrc={song.image_link}
-                  id={song._id}
-                />
-              </CarouselItem>
-            ))}
+          {songs.concat(songs).map((song, i) => (
+            <CarouselCol scrollSnapAlign="start" size={4}>
+              <SongCard
+                index={i + 1}
+                title={song.title}
+                key={`item:${i}`}
+                focused={i === index}
+                imageSrc={song.image_link}
+                id={song._id}
+              />
+            </CarouselCol>
+          ))}
         </Carousel>
       </CarouselGridWrapper>
     </Container>
