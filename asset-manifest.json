@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/karaoke-front/static/css/main.5beccfd1.chunk.css",
-    "main.js": "/karaoke-front/static/js/main.1307b0f2.chunk.js",
-    "main.js.map": "/karaoke-front/static/js/main.1307b0f2.chunk.js.map",
+    "main.js": "/karaoke-front/static/js/main.81906806.chunk.js",
+    "main.js.map": "/karaoke-front/static/js/main.81906806.chunk.js.map",
     "runtime-main.js": "/karaoke-front/static/js/runtime-main.028f02f5.js",
     "runtime-main.js.map": "/karaoke-front/static/js/runtime-main.028f02f5.js.map",
     "static/css/2.ae15fd65.chunk.css": "/karaoke-front/static/css/2.ae15fd65.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.ae15fd65.chunk.css",
     "static/js/2.41228879.chunk.js",
     "static/css/main.5beccfd1.chunk.css",
-    "static/js/main.1307b0f2.chunk.js"
+    "static/js/main.81906806.chunk.js"
   ]
 }
