@@ -9,7 +9,6 @@ import {
   Row,
   Container,
   useRemoteHandlers,
-  CarouselItem,
   CarouselCol,
 } from '@sberdevices/plasma-ui';
 import { isSberBox } from '@sberdevices/plasma-ui/utils';

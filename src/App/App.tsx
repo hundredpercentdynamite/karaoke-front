@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef } from 'react';
-import { Switch, Route, useHistory, useRouteMatch, useLocation, useParams, matchPath } from 'react-router-dom';
+import { Switch, Route, useHistory, useRouteMatch } from 'react-router-dom';
 import SongList from '../components/SongList';
 import './App.scss';
 import SongPage from '../components/SongPage';

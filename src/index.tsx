@@ -8,11 +8,13 @@ import GlobalStyle from './App/GlobalStyle';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 
+const BASE_PATH = process.env.PUBLIC_URL;
+
 ReactDOM.render(
   <React.StrictMode>
-    <DeviceThemeProvider>
+    <DeviceThemeProvider theme={lightJoy}>
       <GlobalStyle />
-      <BrowserRouter>
+      <BrowserRouter basename={BASE_PATH}>
         <App />
       </BrowserRouter>
     </DeviceThemeProvider>

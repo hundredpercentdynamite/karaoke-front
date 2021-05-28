@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardContent, CardMedia, CardHeadline2, Col, CarouselCol } from '@sberdevices/plasma-ui';
+import { Card, CardBody, CardContent, CardMedia, CardHeadline2 } from '@sberdevices/plasma-ui';
 import { useHistory } from 'react-router-dom';
 import styles from "./styles.module.scss";
 export type SongCardProps = Readonly<{
@@ -19,7 +19,7 @@ const SongCard = (props: SongCardProps) => {
   return (
       <Card focused={focused} className={styles.song_card} scaleOnFocus onClick={clickHandler}>
         <CardBody>
-          <CardMedia src={imageSrc} ratio="1/1" />
+          <CardMedia src={imageSrc} alt={title} ratio="1/1" />
           <CardContent>
             <CardHeadline2>
               {index}.&nbsp;
