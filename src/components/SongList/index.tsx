@@ -46,8 +46,7 @@ export const SongList = memo((props: SongListProps) => {
     delay,
     longDelay,
     min: 0,
-    // max: songs.length - 1,
-    max: 1,
+    max: songs.length - 1,
   });
 
   return (
@@ -58,7 +57,7 @@ export const SongList = memo((props: SongListProps) => {
           axis="x"
           index={index}
           animatedScrollByIndex
-          scrollSnapType="mandatory"
+          scrollSnapType="proximity"
           detectActive
           detectThreshold={0.5}
           onIndexChange={(i) => {
@@ -66,10 +65,10 @@ export const SongList = memo((props: SongListProps) => {
           }}
           paddingStart="50%"
           paddingEnd="50%"
-          style={{ paddingTop: '5rem', paddingBottom: '1rem' }}
-          scrollAlign="start"
+          style={{ paddingTop: '5rem', paddingBottom: '2rem' }}
+          scrollAlign="center"
         >
-          {songs.concat(songs).map((song, i) => (
+          {songs.map((song, i) => (
             <CarouselCol scrollSnapAlign="start" size={4}>
               <SongCard
                 index={i + 1}

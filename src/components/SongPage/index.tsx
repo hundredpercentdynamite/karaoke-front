@@ -13,10 +13,12 @@ import { createReducer } from '../../utils/reducer';
 import './styles.scss';
 import { AppState } from '../../App/store';
 import volumeIcon from './assets/volume.svg';
+import { createAssistant } from '@sberdevices/assistant-client';
 
 export type SongPageProps = Readonly<{
   dispatch: Function;
   appState: AppState;
+  assistantRef?: ReturnType<typeof createAssistant>;
 }>;
 export type SongPageState = {
   isLoading: boolean;
@@ -67,6 +69,7 @@ const { actions, reducer } = createReducer<SongPageState>({
 });
 
 const SongPage = (props: SongPageProps) => {
+  const { assistantRef } = props;
   const { songId } = useParams<{ songId: string }>();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lyricsRef = useRef<HTMLDivElement | null>(null);
@@ -129,6 +132,11 @@ const SongPage = (props: SongPageProps) => {
   }
   const onSongEnded = () => {
     dispatch(setPlayingFlag(false));
+    console.log('heeel');
+    if (assistantRef) {
+      console.log('hello');
+      assistantRef.sendData({ action: { action_id: 'songEnded' }});
+    }
   }
 
   const imageClickHandler = !isPlaying ? onPlay : onPause;
@@ -153,10 +161,10 @@ const SongPage = (props: SongPageProps) => {
             />
             <img className="volume_icon" src={volumeIcon} alt="volume" width={20} height={20} />
           </div>
-          <div className="image_container" onClick={imageClickHandler}>
+          <Card tabIndex={-1} outlined className="image_container" onClick={imageClickHandler}>
             <div className="song_image" style={imgBackground} />
             <div className={controlButtonClassName} />
-          </div>
+          </Card>
         </div>
 
       }

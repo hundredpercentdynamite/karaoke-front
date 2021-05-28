@@ -1,5 +1,8 @@
 .song_card {
   cursor: pointer;
+  @media screen and (max-width: 540px) {
+    margin: 0 15px;
+  }
   &__img {
     width: 100%;
   }

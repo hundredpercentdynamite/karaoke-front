@@ -74,7 +74,7 @@ function App() {
         }
         <Switch>
           <Route path="/song/:songId" component={SongPage}>
-            <SongPage dispatch={dispatch} appState={appState} />
+            <SongPage dispatch={dispatch} appState={appState} assistantRef={assistantRef.current} />
           </Route>
           <Route path="/" exact component={SongList}>
             <SongList dispatch={dispatch} appState={appState} />
