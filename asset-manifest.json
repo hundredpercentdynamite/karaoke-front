@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/karaoke-front/static/css/main.c9465a65.chunk.css",
-    "main.js": "/karaoke-front/static/js/main.aece69ba.chunk.js",
-    "main.js.map": "/karaoke-front/static/js/main.aece69ba.chunk.js.map",
+    "main.css": "/karaoke-front/static/css/main.5beccfd1.chunk.css",
+    "main.js": "/karaoke-front/static/js/main.1307b0f2.chunk.js",
+    "main.js.map": "/karaoke-front/static/js/main.1307b0f2.chunk.js.map",
     "runtime-main.js": "/karaoke-front/static/js/runtime-main.028f02f5.js",
     "runtime-main.js.map": "/karaoke-front/static/js/runtime-main.028f02f5.js.map",
     "static/css/2.ae15fd65.chunk.css": "/karaoke-front/static/css/2.ae15fd65.chunk.css",
@@ -12,7 +12,7 @@
     "static/js/3.c309ab1f.chunk.js.map": "/karaoke-front/static/js/3.c309ab1f.chunk.js.map",
     "index.html": "/karaoke-front/index.html",
     "static/css/2.ae15fd65.chunk.css.map": "/karaoke-front/static/css/2.ae15fd65.chunk.css.map",
-    "static/css/main.c9465a65.chunk.css.map": "/karaoke-front/static/css/main.c9465a65.chunk.css.map",
+    "static/css/main.5beccfd1.chunk.css.map": "/karaoke-front/static/css/main.5beccfd1.chunk.css.map",
     "static/js/2.41228879.chunk.js.LICENSE.txt": "/karaoke-front/static/js/2.41228879.chunk.js.LICENSE.txt",
     "static/media/sphere.ea0e1542.png": "/karaoke-front/static/media/sphere.ea0e1542.png",
     "static/media/volume.c9c7706f.svg": "/karaoke-front/static/media/volume.c9c7706f.svg"
@@ -21,7 +21,7 @@
     "static/js/runtime-main.028f02f5.js",
     "static/css/2.ae15fd65.chunk.css",
     "static/js/2.41228879.chunk.js",
-    "static/css/main.c9465a65.chunk.css",
-    "static/js/main.aece69ba.chunk.js"
+    "static/css/main.5beccfd1.chunk.css",
+    "static/js/main.1307b0f2.chunk.js"
   ]
 }
