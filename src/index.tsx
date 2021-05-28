@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { DeviceThemeProvider } from '@sberdevices/plasma-ui/components/Device'; // Типографика, имеющая размеры, зависимые от типа устройства
 import { lightJoy } from '@sberdevices/plasma-tokens/themes'; // Или один из списка: darkEva, darkJoy, lightEva, lightJoy, lightSber
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import App from './App/App';
 import GlobalStyle from './App/GlobalStyle';
 import './index.scss';
@@ -14,9 +14,9 @@ ReactDOM.render(
   <React.StrictMode>
     <DeviceThemeProvider theme={lightJoy}>
       <GlobalStyle />
-      <BrowserRouter basename={BASE_PATH}>
+      <HashRouter basename={BASE_PATH}>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </DeviceThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
