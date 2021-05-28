@@ -14,6 +14,7 @@ import './styles.scss';
 import { AppState } from '../../App/store';
 import volumeIcon from './assets/volume.svg';
 import { createAssistant } from '@sberdevices/assistant-client';
+import { useInteractionListener } from '../../utils/interactionEvent';
 
 export type SongPageProps = Readonly<{
   dispatch: Function;
@@ -79,35 +80,6 @@ const SongPage = (props: SongPageProps) => {
   const [state, dispatch] = useReducer(reducer, defaultSongPageState);
   const { song, isPlaying, isLoading, volume } = state;
 
-  useEffect(() => {
-    dispatch(setLoadingFlag(true));
-    const fetchSong = async (): Promise<{ data: SongDTO }> => {
-      return fetchSongData(songId);
-    };
-    fetchSong()
-      .then(({ data }) => {
-        dispatch(setSong(data));
-      })
-      .finally(() => {
-        dispatch(setLoadingFlag(false));
-      });
-  }, []);
-
-  const {
-    audio_link,
-    image_link,
-    lyrics,
-  } = song;
-
-  useEffect(() => {
-    if (audioRef.current && lyricsRef.current) {
-      rabbitInst.current = new RabbitLyrics(
-        lyricsRef.current,
-        audioRef.current,
-      );
-      rabbitInst.current.setLyrics(lyrics.replaceAll('\\n', '\n'));
-    }
-  }, [song]);
 
   const onPlay = () => {
     if (audioRef.current) {
@@ -138,6 +110,46 @@ const SongPage = (props: SongPageProps) => {
       assistantRef.sendData({ action: { action_id: 'songEnded' }});
     }
   }
+
+  const playAgainListener = ((event: CustomEvent) => {
+    const { detail: { type } } = event;
+    if (type === 'playAgain') {
+      onPlay();
+    }
+  }) as EventListener;
+  useInteractionListener(playAgainListener);
+
+  useEffect(() => {
+    dispatch(setLoadingFlag(true));
+    const fetchSong = async (): Promise<{ data: SongDTO }> => {
+      return fetchSongData(songId);
+    };
+    fetchSong()
+      .then(({ data }) => {
+        dispatch(setSong(data));
+      })
+      .finally(() => {
+        dispatch(setLoadingFlag(false));
+        onPlay();
+      });
+  }, []);
+
+  const {
+    audio_link,
+    image_link,
+    lyrics,
+  } = song;
+
+  useEffect(() => {
+    if (audioRef.current && lyricsRef.current) {
+      rabbitInst.current = new RabbitLyrics(
+        lyricsRef.current,
+        audioRef.current,
+      );
+      rabbitInst.current.setLyrics(lyrics.replaceAll('\\n', '\n'));
+    }
+  }, [song]);
+
 
   const imageClickHandler = !isPlaying ? onPlay : onPause;
   const controlButtonClassName = !isPlaying ? 'play_button' : 'pause_button';
@@ -172,7 +184,7 @@ const SongPage = (props: SongPageProps) => {
         <CardBody>
           <CardContent>
             {audio_link &&
-            <audio id="audio-1" ref={audioRef} onEnded={onSongEnded}>
+            <audio id="audio-1" controls ref={audioRef} onEnded={onSongEnded}>
               <source src={audio_link} type="audio/mpeg" />
             </audio>
             }

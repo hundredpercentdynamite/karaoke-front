@@ -14,15 +14,17 @@ import {
 import { isSberBox } from '@sberdevices/plasma-ui/utils';
 import SongCard from './SongCard';
 import { AppState, appActions } from '../../App/store';
+import { createAssistant } from '@sberdevices/assistant-client';
 
 
 export type SongListProps = Readonly<{
   dispatch: Function;
   appState: AppState;
+  assistantRef?: ReturnType<typeof createAssistant>
 }>;
 
 export const SongList = memo((props: SongListProps) => {
-  const { dispatch, appState } = props;
+  const { dispatch, appState, assistantRef } = props;
   const { songs } = appState;
   const { setSongs } = appActions;
 
@@ -49,6 +51,12 @@ export const SongList = memo((props: SongListProps) => {
     max: songs.length - 1,
   });
 
+  const onSongChoose = () => {
+    if (assistantRef) {
+      assistantRef.sendData({ action: { action_id: 'songChosen'}})
+    }
+  }
+
   return (
     <Container>
       <CarouselGridWrapper>
@@ -69,14 +77,14 @@ export const SongList = memo((props: SongListProps) => {
           scrollAlign="center"
         >
           {songs.map((song, i) => (
-            <CarouselCol scrollSnapAlign="start" size={4}>
+            <CarouselCol scrollSnapAlign="start" size={4} key={`item:${i}`}>
               <SongCard
                 index={i + 1}
                 title={song.title}
-                key={`item:${i}`}
                 focused={i === index}
                 imageSrc={song.image_link}
                 id={song._id}
+                onSongChoose={onSongChoose}
               />
             </CarouselCol>
           ))}

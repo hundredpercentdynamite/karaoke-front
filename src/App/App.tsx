@@ -6,6 +6,7 @@ import SongPage from '../components/SongPage';
 import { appReducer } from './store';
 import { AssistantAppState, createAssistant, createSmartappDebugger } from '@sberdevices/assistant-client';
 import { Container, Header } from '@sberdevices/plasma-ui';
+import { dispatchInteractionEvent, useInteractionListener } from '../utils/interactionEvent';
 
 const initializeAssistant = (getState: any) => {
   if (process.env.NODE_ENV === 'development') {
@@ -19,6 +20,7 @@ const initializeAssistant = (getState: any) => {
   return createAssistant({ getState });
 };
 
+
 function App() {
   const [appState, dispatch] = useReducer(appReducer, { songs: [] });
   const assistantStateRef = useRef<AssistantAppState>();
@@ -27,19 +29,26 @@ function App() {
 
   const redirectToSong = (id: string) => {
     history.push(`/song/${id}`);
-  }
+  };
   const redirectToRoot = () => {
     history.push('/');
-  }
+  };
+  const redirectListener = ((event: CustomEvent) => {
+    const { detail: { type, payload } } = event;
+    if (type === 'chooseSong') {
+      redirectToSong(payload);
+    }
+  }) as EventListener;
   useEffect(() => {
     assistantRef.current = initializeAssistant(() => assistantStateRef.current);
 
     assistantRef.current.on('data', ({ action, interaction, navigation, system }: any) => {
       if (system?.command === 'BACK') {
         history.goBack();
+        return;
       }
-      if (interaction && interaction?.payload) {
-        redirectToSong(interaction.payload);
+      if (interaction) {
+        dispatchInteractionEvent(interaction);
         return;
       }
       if (action) {
@@ -47,6 +56,8 @@ function App() {
       }
     });
   }, []);
+
+  useInteractionListener(redirectListener);
 
   useEffect(() => {
     assistantStateRef.current = {
@@ -61,7 +72,7 @@ function App() {
   }, [appState]);
 
   const songPageMatch = useRouteMatch<{ songId: string; }>('/song/:songId');
-  const isSongPage = Boolean(songPageMatch)
+  const isSongPage = Boolean(songPageMatch);
   const songId = songPageMatch?.params?.songId;
   const headerTitle = appState.songs.find(({ _id }) => _id === songId)?.title;
   return (
@@ -70,14 +81,14 @@ function App() {
         {
           isSongPage ?
             <Header back={true} title={headerTitle || 'Песня'} onBackClick={redirectToRoot} /> :
-            <Header back={false} title="Караоке"/>
+            <Header back={false} title="Караоке" />
         }
         <Switch>
           <Route path="/song/:songId" component={SongPage}>
             <SongPage dispatch={dispatch} appState={appState} assistantRef={assistantRef.current} />
           </Route>
           <Route path="/" exact component={SongList}>
-            <SongList dispatch={dispatch} appState={appState} />
+            <SongList dispatch={dispatch} appState={appState} assistantRef={assistantRef.current} />
           </Route>
         </Switch>
       </Container>

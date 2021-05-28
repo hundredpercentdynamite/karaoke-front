@@ -8,13 +8,15 @@ export type SongCardProps = Readonly<{
   focused: boolean;
   id: string;
   index: number;
+  onSongChoose: Function;
 }>;
 
 const SongCard = (props: SongCardProps) => {
-  const { imageSrc, title, focused, id, index } = props;
+  const { imageSrc, title, focused, id, index, onSongChoose } = props;
   const history = useHistory();
   const clickHandler = () => {
-    history.push(`/song/${id}`)
+    history.push(`/song/${id}`);
+    onSongChoose();
   }
   return (
       <Card focused={focused} className={styles.song_card} scaleOnFocus onClick={clickHandler}>
