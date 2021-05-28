@@ -12,6 +12,7 @@ import { SongDTO } from '../../models/songs';
 import { createReducer } from '../../utils/reducer';
 import './styles.scss';
 import { AppState } from '../../App/store';
+import volumeIcon from './assets/volume.svg';
 
 export type SongPageProps = Readonly<{
   dispatch: Function;
@@ -150,7 +151,7 @@ const SongPage = (props: SongPageProps) => {
               onRemove={() => {}}
               className="volume_control"
             />
-            <img className="volume_icon" src="/volume.svg" alt="volume" width={20} height={20} />
+            <img className="volume_icon" src={volumeIcon} alt="volume" width={20} height={20} />
           </div>
           <div className="image_container" onClick={imageClickHandler}>
             <div className="song_image" style={imgBackground} />
