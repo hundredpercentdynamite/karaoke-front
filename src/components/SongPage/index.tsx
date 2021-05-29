@@ -104,20 +104,31 @@ const SongPage = (props: SongPageProps) => {
   }
   const onSongEnded = () => {
     dispatch(setPlayingFlag(false));
-    console.log('heeel');
     if (assistantRef) {
-      console.log('hello');
       assistantRef.sendData({ action: { action_id: 'songEnded' }});
     }
   }
 
-  const playAgainListener = ((event: CustomEvent) => {
+  const playAgain = () => {
+    dispatch(setPlayingFlag(true));
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current?.play();
+
+    }
+  }
+
+  const audioControlListener = ((event: CustomEvent) => {
     const { detail: { type } } = event;
     if (type === 'playAgain') {
+      playAgain();
+    } else if (type === 'pausePlaying') {
+      onPause();
+    } else if (type === 'startPlaying') {
       onPlay();
     }
   }) as EventListener;
-  useInteractionListener(playAgainListener);
+  useInteractionListener(audioControlListener);
 
   useEffect(() => {
     dispatch(setLoadingFlag(true));
@@ -184,7 +195,7 @@ const SongPage = (props: SongPageProps) => {
         <CardBody>
           <CardContent>
             {audio_link &&
-            <audio id="audio-1" controls ref={audioRef} onEnded={onSongEnded}>
+            <audio id="audio-1" ref={audioRef} onEnded={onSongEnded}>
               <source src={audio_link} type="audio/mpeg" />
             </audio>
             }
